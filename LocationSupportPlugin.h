@@ -12,7 +12,6 @@ CLLocationManager *locationManager;
     -(void) stopTrackingSignificant:(CDVInvokedUrlCommand*)command;
     - (void) latitude:(CLLocationDegrees) currentLatitude longitude:(CLLocationDegrees) currentLongitude;
 
-
 @property (nonatomic, retain) CLLocationManager *locationManager;
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation;

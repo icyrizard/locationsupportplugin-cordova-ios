@@ -6,26 +6,27 @@
 NSString *user_token = @"";
 NSString *host = @"";
 
-//-(void) getLocation:(CDVInvokedUrlCommand*)command
-//{
-//    CDVPluginResult* pluginResult = nil;
-//    
-//    NSString *echo = [command.arguments objectAtIndex:0];
-//    NSLog(@"in xcode: %@\n", echo);
-//    
-//    if (echo != nil && [echo length] > 0) {
-//        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
-//    } else {
-//        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-//    }
-//    NSLog(@"in xcode: %@\n", pluginResult);
-//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//}
+-(void) getLocation:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult = nil;
+
+    NSString *echo = [command.arguments objectAtIndex:0];
+    NSLog(@"in xcode: %@\n", echo);
+
+    if (echo != nil && [echo length] > 0) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    }
+    NSLog(@"in xcode: %@\n", pluginResult);
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 -(void) init:(CDVInvokedUrlCommand*)command
 {
     NSString *msg = @"";
     CDVPluginResult* pluginResult = nil;
-    
+
     /* init with user token */
     if (nil == locationManager){
         host = [[NSString alloc] initWithFormat:@"%@", [command.arguments objectAtIndex:0]];
@@ -34,7 +35,7 @@ NSString *host = @"";
 
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
-        
+
         //Only applies when in foreground otherwise it only reacts on very significant changes
         //[locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
@@ -73,29 +74,29 @@ NSString *host = @"";
     // You need to send the actual length of your data. Calculate the length of the post string.
     //NSLog(@"Post length %u \n", [postData length]);
     NSString *postLength = [NSString stringWithFormat:@"%u", [postData length]];
-    
+
     // Create a Urlrequest with all the properties like HTTP method, http header field with length of the post string.
     //Create URLRequest object and initialize it.
     NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
-    
+
     // Set the Url for which your going to send the data to that request.
     [request setURL:[NSURL URLWithString:[NSString stringWithFormat: @"%@", host]]];
-    
+
     // Now, set HTTP method (POST or GET).
     // Write this lines as it is in your code.
     [request setHTTPMethod:@"POST"];
-    
+
     // Set HTTP header field with length of the post data.
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     // Also set the Encoded value for HTTP header Field.
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Current-Type"];
-    
+
     // Set the HTTPBody of the urlrequest with postData.
     [request setHTTPBody:postData];
-    
+
     // Now, create URLConnection object. Initialize it with the URLRequest.
     NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
-    
+
     // Check for errors
     if(conn) {
         NSLog(@"Connection Successful.");
@@ -127,7 +128,7 @@ NSString *host = @"";
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
-        
+
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -135,7 +136,7 @@ NSString *host = @"";
 {
     /* Plugin result object */
     CDVPluginResult* pluginResult = nil;
-    
+
     /* status message */
     NSString *msg = @"";
 
@@ -146,7 +147,7 @@ NSString *host = @"";
         msg = @"LocationSupportPlugin: location Manager was'nt available";
     }
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:msg];
-    
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -156,14 +157,14 @@ NSString *host = @"";
     CDVPluginResult* pluginResult = nil;
     /* status message */
     NSString *msg = @"";
-    
+
     if(locationManager){
         [locationManager stopMonitoringSignificantLocationChanges];
         msg = @"LocationSupportPlugin: stop Tracking location";
     } else {
         msg = @"LocationSupportPlugin: location Manager was'nt available";
     }
-    
+
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:msg];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     [msg release];
@@ -181,7 +182,7 @@ NSString *host = @"";
     } else {
         msg = @"LocationSupportPlugin: location Manager was'nt available";
     }
-    
+
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:msg];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     [msg release];
@@ -192,7 +193,7 @@ NSString *host = @"";
 {
     /* status message */
     NSString *msg = @"";
-    
+
     /* Plugin result object */
     CDVPluginResult* pluginResult = nil;
     if(locationManager){
@@ -201,7 +202,7 @@ NSString *host = @"";
     } else {
         msg = @"LocationSupportPlugin: location Manager was'nt available";
     }
-    
+
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:msg];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     [msg release];
@@ -210,7 +211,7 @@ NSString *host = @"";
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocationCoordinate2D currentCoordinates = newLocation.coordinate;
-    
+
     //NSLog(@"Entered new Location with the coordinates Latitude: %f Longitude: %f",currentCoordinates.latitude, currentCoordinates.longitude);
 }
 
@@ -218,7 +219,7 @@ NSString *host = @"";
 {
     CLLocation *currentCoordinates = [locations objectAtIndex:0];
     CLLocationCoordinate2D loc = currentCoordinates.coordinate;
-    
+
     /* uncomment if needed, don't forget to show it and release it */
     //NSString *msg = [NSString stringWithFormat:@"lat: %f, lon: %f", loc.latitude, loc.longitude];
     //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Update"
