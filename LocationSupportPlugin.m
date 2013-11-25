@@ -1,3 +1,15 @@
+/**************************************************
+* Name: locationsupport-cordova-plugin
+*
+* Purpose: Provide the functionality to track a location of your
+*       app users in order to make other functionalities possible.
+*        e.g, location targeted push-message notifications.
+*
+* Author: R. Torenvliet(icyrizard)
+* Date Created: 10-15-2013
+* Licence: GNU GPL-V2
+*/
+
 #import "LocationSupportPlugin.h"
 
 @implementation LocationSupportPlugin
@@ -11,14 +23,12 @@ NSString *host = @"";
     CDVPluginResult* pluginResult = nil;
 
     NSString *echo = [command.arguments objectAtIndex:0];
-    NSLog(@"in xcode: %@\n", echo);
 
     if (echo != nil && [echo length] > 0) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
-    NSLog(@"in xcode: %@\n", pluginResult);
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -63,7 +73,9 @@ NSString *host = @"";
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-
+/**
+ *  Send location to your back-end
+ */
 - (void) didUpdateCoordinates:(CLLocationCoordinate2D) loc {
     //CLLocationCoordinate2D loc = coordinates.coordinate;
     // set post string with actual username and password.

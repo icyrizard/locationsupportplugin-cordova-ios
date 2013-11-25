@@ -1,3 +1,15 @@
+/**************************************************
+* Name: locationsupport-cordova-plugin
+*
+* Purpose: Provide the functionality to track a location of your
+*       app users in order to make other functionalities possible.
+*        e.g, location targeted push-message notifications.
+*
+* Author: R. Torenvliet(icyrizard)
+* Date Created: 10-15-2013
+* Licence: GNU GPL-V2
+*/
+
 #import <Cordova/CDV.h>
 #import <CoreLocation/CoreLocation.h>
 
